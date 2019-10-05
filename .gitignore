@@ -7,3 +7,12 @@ log
 
 
 /Prepare_to_HW0.patch
+/patches/1_0_fix.patch
+/patches/1_1_HW0_stream.patch
+/patches/1_2_HW0_cycle.patch
+/patches/1_3_HW0_optional2.patch
+/patches/1_4_switch_to_war.patch
+/patches/1_5_add_servlet_api.patch
+/patches/1_6_forward_to_redirect.patch
+/patches/1_7_logging.patch
+/patches/Prepare_to_HW0.patch
