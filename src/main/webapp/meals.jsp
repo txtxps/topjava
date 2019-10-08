@@ -14,6 +14,7 @@
 </head>
 <body>
 <h3><a href="index.html">Home</a></h3>
+
 <table>
     <style type="text/css">
         TABLE {
@@ -31,20 +32,26 @@
     </style>
     <thread>
         <tr>
+            <th>ID</th>
             <th>Date</th>
             <th>Description</th>
             <th>Calories</th>
+            <th colspan=2>Action</th>
         </tr>
     </thread>
     <tbody>
-        <c:forEach var="list" items="${Meals}" >
-            <tr style="color:${list.excess ? 'green' : 'red'}">
-                <td>${list.dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}</td>
-                <td>${list.description}</td>
-                <td>${list.calories}</td>
+        <c:forEach var="meal" items="${mealList}" >
+            <tr style="color:${meal.excess ? 'green' : 'red'}">
+                <td>${meal.id}</td>
+                <td>${meal.dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</td>
+                <td>${meal.description}</td>
+                <td>${meal.calories}</td>
+                <td><a href="meals?action=edit&id=<c:out value="${meal.id}"/>">Edit</a></td>
+                <td><a href="meals?action=delete&id=<c:out value="${meal.id}"/>">Delete</a></td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
+<a href="meals?action=create">Add Meal</a>
 </body>
 </html>
