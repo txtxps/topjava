@@ -18,16 +18,12 @@
 <table>
     <style type="text/css">
         TABLE {
-            width: 100%; /* Ширина таблицы */
+            width: 500px; /* Ширина таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
         }
         TD, TH {
             padding: 3px; /* Поля вокруг содержимого таблицы */
             border: 1px solid black; /* Параметры рамки */
-            background: #fff97d; /* Цвет фона */
-        }
-        TH {
-            background: #fc0; /* Цвет фона */
         }
     </style>
     <thread>
@@ -41,7 +37,7 @@
     </thread>
     <tbody>
         <c:forEach var="meal" items="${mealList}" >
-            <tr style="color:${meal.excess ? 'green' : 'red'}">
+            <tr style="color:${meal.excess ? 'red' : 'green'}">
                 <td>${meal.id}</td>
                 <td>${meal.dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</td>
                 <td>${meal.description}</td>
