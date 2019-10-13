@@ -28,7 +28,6 @@
     </style>
     <thread>
         <tr>
-            <th>ID</th>
             <th>Date</th>
             <th>Description</th>
             <th>Calories</th>
@@ -38,7 +37,6 @@
     <tbody>
         <c:forEach var="meal" items="${mealList}" >
             <tr style="color:${meal.excess ? 'red' : 'green'}">
-                <td>${meal.id}</td>
                 <td>${meal.dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>

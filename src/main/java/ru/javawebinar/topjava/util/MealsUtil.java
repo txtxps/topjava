@@ -6,20 +6,15 @@ import ru.javawebinar.topjava.model.MealTo;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-//        LocalTime startTime = LocalTime.of(7, 0);
-//        LocalTime endTime = LocalTime.of(12, 0);
-//
-//        List<MealTo> mealsTo = getFiltered(meals, startTime, endTime, DEFAULT_CALORIES_PER_DAY);
-//        mealsTo.forEach(System.out::println);
+    public static List<MealTo> getWithExceeded(List<Meal> mealList, int caloriesPerDay) {
+        return getFilteredWithExceeded(mealList, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
     }
 
-    public static List<MealTo> getFiltered(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+    public static List<MealTo> getFilteredWithExceeded(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
                         Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
