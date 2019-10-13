@@ -16,3 +16,10 @@ log
 /patches/1_6_forward_to_redirect.patch
 /patches/1_7_logging.patch
 /patches/Prepare_to_HW0.patch
+/patches/2_1_HW1.patch
+/patches/2_2_HW1_optional.patch
+/patches/2_3_app_layers.patch
+/patches/2_4_add_spring_context.patch
+/patches/2_5_dependency_injection.patch
+/patches/2_6_annotation_processing.patch
+/patches/2_7_constructor_injection.patch
