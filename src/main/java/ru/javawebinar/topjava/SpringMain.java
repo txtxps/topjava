@@ -21,9 +21,9 @@ public class SpringMain {
 //            adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ROLE_ADMIN));
 //        }
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             MealRestController mealRestController = appCtx.getBean(MealRestController.class);
             mealRestController.create(new Meal(LocalDateTime.of(2017, Month.MAY, 20, 11, 30), "Завтрак", 5000));
+            System.out.println(mealRestController.getAll().toString());
         }
 
     }

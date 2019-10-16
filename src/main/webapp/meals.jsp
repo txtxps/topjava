@@ -24,18 +24,19 @@
     <a href="meals?action=create">Add Meal</a>
     <hr/>
 
-<%--    <form method="post">--%>
-<%--        <label>Start Date</label>--%>
-<%--        <input type="date" name="startDate">--%>
-<%--        <label>End Date</label>--%>
-<%--        <input type="date" name="endDate">--%>
-<%--        <br><br>--%>
-<%--        <label>Start Time</label>--%>
-<%--        <input type="time" name="startTime">--%>
-<%--        <label>End Time</label>--%>
-<%--        <input type="time" name="endTime">--%>
-<%--        <input type="submit">--%>
-<%--    </form>--%>
+    <form method="post" action="meals?action=filter">
+        <label>Start Date</label>
+        <input type="date" name="startDate">
+        <label>Start Time</label>
+        <input type="time" name="startTime">
+        <br><br>
+        <label>End Date</label>
+        <input type="date" name="endDate">
+        <label>End Time</label>
+        <input type="time" name="endTime">
+        <br><br>
+        <input type="submit">
+    </form>
 
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
