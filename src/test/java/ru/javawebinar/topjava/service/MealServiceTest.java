@@ -21,7 +21,6 @@ import static ru.javawebinar.topjava.UserTestData.*;
 
 @ContextConfiguration({
         "classpath:spring/spring-db.xml",
-        "classpath:spring/spring.xml",
         "classpath:spring/spring-app.xml"
 })
 @RunWith(SpringRunner.class)
@@ -34,8 +33,8 @@ public class MealServiceTest {
     @Test
     public void create() {
         Meal newMeal = new Meal(null, LocalDateTime.of(2019, Month.APRIL, 30, 16, 0), "Админ Завтрак", 5000);
-        Meal created = service.create(newMeal, 100001);
-        assertMatch(created, service.get(100010, 100001));
+        Meal created = service.create(newMeal, ADMIN_ID);
+        assertMatch(Arrays.asList(created, MEAL8, MEAL7), service.getAll(ADMIN_ID));
     }
 
     @Test
@@ -46,7 +45,7 @@ public class MealServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
-        service.get(5, 100001);
+        service.get(5, ADMIN_ID);
     }
 
     @Test
@@ -57,7 +56,7 @@ public class MealServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void deletedNotFound() throws Exception {
-        service.delete(5, 100001);
+        service.delete(5, ADMIN_ID);
     }
 
     @Test
