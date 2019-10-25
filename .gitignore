@@ -3,9 +3,7 @@ out
 target
 *.iml
 log
-
-
-
+*.patch
 /Prepare_to_HW0.patch
 /patches/1_0_fix.patch
 /patches/1_1_HW0_stream.patch
