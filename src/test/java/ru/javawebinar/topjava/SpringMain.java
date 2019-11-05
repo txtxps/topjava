@@ -24,7 +24,7 @@ public class SpringMain {
         // java 7 automatic resource management
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
             ConfigurableEnvironment env = appCtx.getEnvironment();
-            env.setActiveProfiles(HSQL_DB, JDBC);
+            env.setActiveProfiles(Profiles.getActiveDbProfile(), JDBC);
             appCtx.load("spring/spring-app.xml", "spring/inmemory.xml");
             appCtx.refresh();
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));

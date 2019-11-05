@@ -23,25 +23,30 @@ import static ru.javawebinar.topjava.Profiles.POSTGRES_DB;
 import static ru.javawebinar.topjava.util.DateTimeUtil.getEndExclusive;
 import static ru.javawebinar.topjava.util.DateTimeUtil.getStartInclusive;
 
-@Repository
 abstract public class JdbcMealRepository<T> implements MealRepository {
 
     private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
-    private final JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final SimpleJdbcInsert insertMeal;
+    private SimpleJdbcInsert insertMeal;
 
     protected abstract T changeDateTimeFormat(LocalDateTime localDateTime);
+
+    @Autowired
+    public void init(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("meals")
+                .usingGeneratedKeyColumns("id");
+    }
 
     @Repository
     @Profile({POSTGRES_DB})
     public static class PostgresJdbcMealRepo extends JdbcMealRepository<LocalDateTime> {
-        public PostgresJdbcMealRepo(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-            super(jdbcTemplate, namedParameterJdbcTemplate);
-        }
         @Override
         protected LocalDateTime changeDateTimeFormat(LocalDateTime localDateTime) {
             return localDateTime;
@@ -51,22 +56,10 @@ abstract public class JdbcMealRepository<T> implements MealRepository {
     @Repository
     @Profile({HSQL_DB})
     public static class HsqldbJdbcMealRepo extends JdbcMealRepository<Timestamp> {
-        public HsqldbJdbcMealRepo(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-            super(jdbcTemplate, namedParameterJdbcTemplate);
-        }
         @Override
         protected Timestamp changeDateTimeFormat(LocalDateTime localDateTime) {
             return Timestamp.valueOf(localDateTime);
         }
-    }
-    @Autowired
-    public JdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.insertMeal = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("meals")
-                .usingGeneratedKeyColumns("id");
-
-        this.jdbcTemplate = jdbcTemplate;
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
