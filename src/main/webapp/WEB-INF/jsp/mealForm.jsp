@@ -9,7 +9,7 @@
 <section>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <h3><spring:message code="${meal.isNew() ? 'meal.add' : 'meal.edit'}"/></h3>
-    <form method="post" action="/topjava/meals">
+    <form method="post" action="${pageContext.request.contextPath}/meals">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
             <dt><spring:message code="common.dateTime"/>:</dt>
