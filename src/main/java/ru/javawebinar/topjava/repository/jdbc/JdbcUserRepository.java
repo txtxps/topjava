@@ -13,8 +13,6 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 
 @Repository
@@ -47,7 +45,6 @@ public class JdbcUserRepository implements UserRepository {
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
-            insertRoles(user);
         } else {
             if (namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
@@ -55,8 +52,8 @@ public class JdbcUserRepository implements UserRepository {
                 return null;
             }
             deleteRoles(user);
-            insertRoles(user);
         }
+        insertRoles(user);
         return user;
     }
 
@@ -96,12 +93,9 @@ public class JdbcUserRepository implements UserRepository {
         Set<Role> roles = user.getRoles();
         if (!CollectionUtils.isEmpty(roles)) {
             jdbcTemplate.batchUpdate("INSERT INTO user_roles (user_id, role) VALUES (?, ?)", roles, roles.size(),
-                    new ParameterizedPreparedStatementSetter<Role>() {
-                        @Override
-                        public void setValues(PreparedStatement ps, Role argument) throws SQLException {
-                            ps.setInt(1, user.getId());
-                            ps.setString(2, argument.name());
-                        }
+                    (ps, argument) -> {
+                        ps.setInt(1, user.getId());
+                        ps.setString(2, argument.name());
                     });
         }
     }

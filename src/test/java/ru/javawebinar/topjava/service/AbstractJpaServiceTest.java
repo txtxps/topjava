@@ -1,9 +1,8 @@
-package ru.javawebinar.topjava.service.jpa;
+package ru.javawebinar.topjava.service;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.repository.JpaUtil;
-import ru.javawebinar.topjava.service.AbstractUserServiceTest;
 
 abstract public class AbstractJpaServiceTest extends AbstractUserServiceTest {
 
