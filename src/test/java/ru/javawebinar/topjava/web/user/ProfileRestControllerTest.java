@@ -11,10 +11,10 @@ import ru.javawebinar.topjava.util.UserUtil;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.javawebinar.topjava.TestUtil.readFromJson;
 import static ru.javawebinar.topjava.UserTestData.*;
+import static ru.javawebinar.topjava.util.exception.ErrorType.VALIDATION_ERROR;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
 
@@ -69,5 +69,13 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         USER_MATCHERS.assertMatch(userService.get(USER_ID), UserUtil.updateFromTo(new User(USER), updatedTo));
+    }
+
+    @Test
+    void updateInvalid() throws Exception {
+        UserTo userTo = new UserTo(null, null, "pass", null, 2000);
+        perform(doPut().jsonBody(userTo).basicAuth(USER))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.type").value(VALIDATION_ERROR.name()));
     }
 }

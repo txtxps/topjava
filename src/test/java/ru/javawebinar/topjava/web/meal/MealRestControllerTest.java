@@ -13,8 +13,7 @@ import ru.javawebinar.topjava.web.AbstractControllerTest;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.TestUtil.readFromJson;
 import static ru.javawebinar.topjava.TestUtil.readFromJsonMvcResult;
@@ -22,6 +21,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 import static ru.javawebinar.topjava.util.MealsUtil.createTo;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
+import static ru.javawebinar.topjava.util.exception.ErrorType.VALIDATION_ERROR;
 
 class MealRestControllerTest extends AbstractControllerTest {
 
@@ -113,5 +113,21 @@ class MealRestControllerTest extends AbstractControllerTest {
         perform(doGet("filter?startDate=&endTime=").basicAuth(USER))
                 .andExpect(status().isOk())
                 .andExpect(MEAL_TO_MATCHERS.contentJson(getTos(MEALS, USER.getCaloriesPerDay())));
+    }
+
+    @Test
+    void createInvalid() throws Exception {
+        Meal meal = new Meal(null, null, "Obed", 7000);
+        perform(doPut(MEAL1_ID).jsonBody(meal).basicAuth(USER))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.type").value(VALIDATION_ERROR.name()));
+    }
+
+    @Test
+    void updateInvalid() throws Exception {
+        Meal meal = new Meal(MEAL1_ID, null, null, 7000);
+        perform(doPut(MEAL1_ID).jsonBody(meal).basicAuth(USER))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.type").value(VALIDATION_ERROR.name()));
     }
 }
